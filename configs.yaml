@@ -1,0 +1,6 @@
+defaults:
+  wandb_entity: srl_ethz
+  wandb_group: dmc_baselines
+  wandb_project: fsi_semester_project
+  run_name: curl_fish-swim_test-0
+  log_to_wandb: true
