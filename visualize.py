@@ -13,14 +13,6 @@ parser.add_argument('--path_to_data', type=str, help='Path to file to plot data 
 parser.add_argument('--ema_span', type=int, default=20, help='Span for Moving Exponential Average')
 args = parser.parse_args()
 
-logfiles_locations = {
-    'fish-swim_test-0_eval' : 'tmp/fish/fish-swim-04-25-im84-b128-s411637-pixel/eval.log',
-    'fish-swim_test-0_train' : 'tmp/fish/fish-swim-04-25-im84-b128-s411637-pixel/train.log',
-    'cartpole-swingup_test-0_eval' : 'tmp/cartpole/cartpole-swingup-04-27-im84-b128-s348228-pixel/eval.log',
-    'walker-walk_test-0_eval' : 'tmp/walker/walk/walker-walk-04-29-im84-b128-s673499-pixel/eval.log',
-    'swimmer-swimmer6_test-0_eval' : 'tmp/swimmer/swimmer-swimmer6-04-30-im84-b128-s683281-pixel/eval.log',
-}
-
 # Path to the log file
 log_file_path = args.path_to_data
 
