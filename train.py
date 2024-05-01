@@ -18,6 +18,9 @@ from video import VideoRecorder
 from curl_sac import CurlSacAgent
 from torchvision import transforms
 
+import wandb
+import ruamel.yaml as yaml
+from pathlib import Path 
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -192,6 +195,8 @@ def main():
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+    print("Device: ", device)
+
     action_shape = env.action_space.shape
 
     if args.encoder_type == 'pixel':
@@ -279,4 +284,19 @@ def main():
 if __name__ == '__main__':
     torch.multiprocessing.set_start_method('spawn')
 
+    # with open("configs.yaml", "r") as yaml_file:
+    #     yaml_obj = yaml.YAML()
+    #     configs = yaml_obj.load(yaml_file)
+
+    # Logging to Weights and Biases
+    wandb.init(
+        entity = "srl_ethz",
+        group = "dmc_baselines",
+        project = "fsi_semester_project",
+        name = "curl_fish-swim_test-0",
+        sync_tensorboard = True,
+    )
+
     main()
+
+    wandb.finish()

@@ -329,6 +329,15 @@ class CurlSacAgent(object):
         self.train()
         self.critic_target.train()
 
+        numParams = int(sum([np.prod(p.size()) for p in filter(lambda p: p.requires_grad, self.CURL.parameters())]))
+        print(f"\033[95mNumber of trainable parameters in CURL model: {numParams}\033[0m")
+
+        numParams = int(sum([np.prod(p.size()) for p in filter(lambda p: p.requires_grad, self.critic.parameters())]))
+        print(f"\033[95mNumber of trainable parameters in critic model: {numParams}\033[0m")
+
+        numParams = int(sum([np.prod(p.size()) for p in filter(lambda p: p.requires_grad, self.actor.parameters())]))
+        print(f"\033[95mNumber of trainable parameters in actor model: {numParams}\033[0m")
+
     def train(self, training=True):
         self.training = training
         self.actor.train(training)
