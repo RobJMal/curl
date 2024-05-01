@@ -3,6 +3,15 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import os 
+import pandas as pd
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--environment', type=str, help='Name of DMC environment (ex. fish, walker)', required=True)
+parser.add_argument('--task', type=str, help='Name of task for environment', required=True)
+parser.add_argument('--path_to_data', type=str, help='Path to file to plot data from (eval or train)', required=True)
+parser.add_argument('--ema_span', type=int, default=20, help='Span for Moving Exponential Average')
+args = parser.parse_args()
 
 logfiles_locations = {
     'fish-swim_test-0_eval' : 'tmp/fish/fish-swim-04-25-im84-b128-s411637-pixel/eval.log',
@@ -13,7 +22,14 @@ logfiles_locations = {
 }
 
 # Path to the log file
-log_file_path = logfiles_locations['swimmer-swimmer6_test-0_eval']
+log_file_path = args.path_to_data
+
+collected_data_type = ''
+if 'eval' in log_file_path:
+    collected_data_type = 'Eval'
+elif 'train' in log_file_path:
+    collected_data_type = 'Train'
+
 results_directory = 'results'
 
 # Function to load data from a log file
