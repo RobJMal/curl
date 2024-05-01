@@ -46,15 +46,21 @@ steps = np.array([entry['step'] for entry in data])
 episode_rewards = np.array([entry['episode_reward'] for entry in data])
 mean_episode_rewards = np.array([entry['mean_episode_reward'] for entry in data])
 
+# Calculate the Exponential Moving Average for episode and mean episode rewards
+ema_span = 20  # Span for EMA calculation; can be adjusted
+episode_rewards_ema = pd.Series(episode_rewards).ewm(span=ema_span, adjust=False).mean()
+mean_episode_rewards_ema = pd.Series(mean_episode_rewards).ewm(span=ema_span, adjust=False).mean()
+
 # Plot Episode Reward 
 plt.figure(figsize=(10, 5))
-plt.plot(steps, episode_rewards, label='Episode Reward', marker='o', color='Blue')
-plot_title = 'Eval Episode Reward (CURL swimmer-swimmer6)'
+plt.plot(steps, episode_rewards, label='Episode Reward', marker='o', color='blue')
+plt.plot(steps, episode_rewards_ema, label="Episode Rewards EMA", linestyle='-', color='red')
+plot_title = f'{collected_data_type} Episode Reward (CURL {args.environment}-{args.task})'
 plt.title(plot_title)
 plt.xlabel('Step')
 plt.ylabel('Reward')
 plt.legend()
 plt.grid(True)
-plt.savefig(os.path.join(results_directory, plot_title))
+plt.savefig(os.path.join(results_directory, plot_title.replace(" ", "-")))
 plt.show()
 plt.close()
